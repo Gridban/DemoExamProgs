@@ -1,0 +1,30 @@
+version: "3.9"
+
+services:
+
+  gogs:
+    image: gogs/gogs:0.13
+    volumes:
+      - "gogs_data:/data"
+    ports:
+      - "10022:22"
+      - "80:3000"
+    links:
+      - Postgres
+    depends_on:
+      - Postgres
+
+  Postgres:
+    image: postgres:13.3
+    environment:
+      POSTGRES_DB: "gogs"
+      POSTGRES_USER: "gogs"
+      POSTGRES_PASSWORD: "tOFryk49!74s"
+    volumes:
+      - .:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+
+volumes:
+  gogs_data:
+  pg_data:
